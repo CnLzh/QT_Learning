@@ -2,6 +2,7 @@
 #define FINDDIALOG_H
 
 #include<QDialog>
+#include<QWidget>
 
 //类前置声明，文件中使用的指针没必要在头文件中访问，编译程序不需要完整定义，加快编译速度。
 class QCheckBox;
