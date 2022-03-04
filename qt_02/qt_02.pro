@@ -10,16 +10,17 @@ CONFIG += c++11
 
 SOURCES += \
     finddialog.cpp \
-    main.cpp \
-    mainwindow.cpp
+    gotocelldialog.cpp \
+    main.cpp
 
 HEADERS += \
     finddialog.h \
-    mainwindow.h
+    gotocelldialog.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-FORMS +=
+FORMS += \
+    gotocelldialog.ui
