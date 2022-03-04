@@ -5,10 +5,6 @@
 
 #include"ui_gotocelldialog.h"
 
-namespace Ui {
-class GoToCellDialog;
-}
-
 class GoToCellDialog : public QDialog
 {
     Q_OBJECT
