@@ -25,6 +25,7 @@ private:
     QCheckBox * backwardCheckBox;
     QPushButton *findButton;
     QPushButton *closeButton;
+
 };
 
 #endif // FINDDIALOG_H

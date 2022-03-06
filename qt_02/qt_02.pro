@@ -12,12 +12,15 @@ SOURCES += \
     finddialog.cpp \
     gotocelldialog.cpp \
     main.cpp \
+    mainwindow.cpp \
     sortdialog.cpp
 
 HEADERS += \
     finddialog.h \
     gotocelldialog.h \
-    sortdialog.h
+    mainwindow.h \
+    sortdialog.h \
+    spreadsheet.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -27,3 +30,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 FORMS += \
     gotocelldialog.ui \
     sortdialog.ui
+
+RESOURCES += \
+    spreadsheet.qrc
