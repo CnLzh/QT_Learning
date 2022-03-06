@@ -34,3 +34,30 @@ void SortDialog::setColumnRange(QChar first, QChar last)
         ch = QChar(ch.unicode() + 1);
     }
 }
+
+QComboBox* SortDialog::getPrimaryColumnCombo()const
+{
+    return ui->primaryColumnCombo;
+}
+QComboBox* SortDialog::getPrimaryOrderCombo()const
+{
+    return ui->primaryOrderCombo;
+}
+
+QComboBox* SortDialog::getSecondaryColumnCombo()const
+{
+    return ui->secondaryColumnCombo;
+}
+QComboBox* SortDialog::getSecondaryOrderCombo()const
+{
+    return ui->secondaryOrderCombo;
+}
+
+QComboBox* SortDialog::getTertiaryColumnCombo()const
+{
+    return ui->tertiaryColumnCombo;
+}
+QComboBox* SortDialog::getTertiaryOrderCombo()const
+{
+    return ui->tertiaryOrderCombo;
+}

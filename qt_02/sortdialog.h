@@ -13,6 +13,12 @@ public:
 
 public:
     void setColumnRange(QChar first, QChar last);
+    QComboBox* getPrimaryColumnCombo() const;
+    QComboBox* getPrimaryOrderCombo() const;
+    QComboBox* getSecondaryColumnCombo() const;
+    QComboBox* getSecondaryOrderCombo() const;
+    QComboBox* getTertiaryColumnCombo() const;
+    QComboBox* getTertiaryOrderCombo() const;
 
 private:
     Ui::SortDialog *ui;

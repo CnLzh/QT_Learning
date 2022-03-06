@@ -12,6 +12,7 @@ class GoToCellDialog : public QDialog
 public:
     GoToCellDialog(QWidget *parent = nullptr);
     ~GoToCellDialog();
+    QString getCellLocation();
 
 private slots:
     void on_lineEdit_textChanged();

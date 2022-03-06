@@ -13,7 +13,8 @@ SOURCES += \
     gotocelldialog.cpp \
     main.cpp \
     mainwindow.cpp \
-    sortdialog.cpp
+    sortdialog.cpp \
+    spreadsheet.cpp
 
 HEADERS += \
     finddialog.h \

@@ -27,3 +27,8 @@ void GoToCellDialog::on_lineEdit_textChanged()
 {
     ui->okButton->setEnabled(ui->lineEdit->hasAcceptableInput());
 }
+
+QString GoToCellDialog::getCellLocation()
+{
+    return ui->lineEdit->text();
+}
