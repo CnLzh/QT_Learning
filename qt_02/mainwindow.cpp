@@ -47,13 +47,13 @@ void MainWindow::createActions()
     selectAllAction = new QAction(tr("&All"),this);
     selectAllAction->setShortcut(QKeySequence::SelectAll);
     selectAllAction->setStatusTip(tr("Select all the cells in the spreadsheet"));
-    connect(selectAllAction,SIGNAL(toggled()),spreadsheet,SLOT(setShowGrid()));
+    connect(selectAllAction,SIGNAL(toggled(bool)),spreadsheet,SLOT(setShowGrid(bool)));
 
     showGridAction = new QAction(tr("&Show Grid"),this);
     showGridAction->setCheckable(true);
     showGridAction->setChecked(spreadsheet->showGrid());
     showGridAction->setStatusTip(tr("Show or hide the spreadsheet's grid"));
-    connect(showGridAction,SIGNAL(toggled()),spreadsheet,SLOT(setShowGrid()));
+    connect(showGridAction,SIGNAL(toggled(bool)),spreadsheet,SLOT(setShowGrid(bool)));
 
     aboutQtAction = new QAction(tr("About &Qt"),this);
     aboutQtAction->setStatusTip(tr("Shwo the Qt library's About box"));
@@ -143,6 +143,18 @@ void MainWindow::createStatusBar()
 
     connect(spreadsheet,SIGNAL(currentCellChanged(int,int,int,int)),this,SLOT(updateStatusBar()));
     connect(spreadsheet,SIGNAL(modified()),this,SLOT(spreadsheetModified()));
+}
+
+void MainWindow::updateStatusBar()
+{
+    locationLabel->setText(spreadsheet->currentLocation());
+    formulaLabel->setText(spreadsheet->currentFormula());
+}
+
+void MainWindow::spreadsheetModified()
+{
+    setWindowModified(true);
+    updateStatusBar();
 }
 
 void MainWindow::newFile()

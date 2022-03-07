@@ -1,6 +1,7 @@
 #include<QtWidgets>
 
 #include"spreadsheet.h"
+#include"cell.h"
 
 Spreadsheet::Spreadsheet(QWidget *parent)
     :QTableWidget(parent)
@@ -44,6 +45,16 @@ QString Spreadsheet::text(int row, int column) const
     else{
         return "";
     }
+}
+
+QString Spreadsheet::formula(int row, int column) const
+{
+    Cell *c = cell(row,column);
+    if(c){
+        return c->formula();
+    }
+    else
+        return "";
 }
 
 void Spreadsheet::setFormula(int row, int column, const QString &formula)
@@ -178,7 +189,7 @@ void Spreadsheet::paste()
     int numColumns = rows.first().count('\t') + 1;
 
     if(range.rowCount() * range.columnCount() != 1
-            && (range.rowCount) != numRows
+            && (range.rowCount()) != numRows
             || range.columnCount() != numColumns){
         QMessageBox::information(this,tr("Spreadsheet"),
                                  tr("The information cannot be pasted because the copy"
@@ -260,3 +271,61 @@ void Spreadsheet::findPrevious(const QString &str, Qt::CaseSensitivity cs)
     QApplication::beep();
 }
 
+void Spreadsheet::recalculate()
+{
+    for(int row = 0; row < RowCount; row++){
+        for(int column = 0; column < ColumnCount; column++){
+            if(cell(row,column))
+                cell(row,column)->setDirty();
+        }
+    }
+    viewport()->update();
+}
+
+void Spreadsheet::setAutoRecalculate(bool recalc)
+{
+    autoRecalc = recalc;
+    if(autoRecalc)
+        recalculate();
+}
+
+void Spreadsheet::sort(const SpreadsheetCompare &compare)
+{
+    QList<QStringList> rows;
+    QTableWidgetSelectionRange range = selectedRange();
+
+    for(int i = 0; i < range.rowCount(); i++){
+        QStringList row;
+        for(int j = 0; j < range.columnCount(); j++)
+            row.append(formula(range.topRow() + i, range.leftColumn() + j));
+        rows.append(row);
+    }
+
+    std::stable_sort(rows.begin(),rows.end(),compare);
+
+    for(int i = 0; i < range.rowCount(); i++){
+        for(int j = 0; j< range.columnCount(); j++)
+            setFormula(range.topRow() + i, range.leftColumn() + j, rows[i][j]);
+    }
+    clearSelection();
+    somethingChanged();
+}
+
+bool SpreadsheetCompare::operator ()(const QStringList &row1,
+                                     const QStringList &row2) const
+{
+    for(int i = 0; i < KeyCount; i++){
+        int column = keys[i];
+        if(column != -1){
+            if(row1[column] != row2[column]){
+                if(ascending[i]){
+                    return row1[column] < row2[column];
+                }
+                else{
+                    return row1[column] > row2[column];
+                }
+            }
+        }
+    }
+    return false;
+}

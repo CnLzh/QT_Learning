@@ -47,7 +47,7 @@ private:
     Cell *cell(int row, int column) const;
     QString text(int row, int column) const;
     QString formula(int row, int column) const;
-    QString setFormula(int row, int column, const QString &formula);
+    void setFormula(int row, int column, const QString &formula);
 
     bool autoRecalc;
 
