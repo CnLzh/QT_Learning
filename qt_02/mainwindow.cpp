@@ -11,6 +11,8 @@ MainWindow::MainWindow()
     spreadsheet = new Spreadsheet;
     setCentralWidget(spreadsheet);
 
+    setAttribute(Qt::WA_DeleteOnClose);
+
     createActions();
     createMenus();
     createContexMenu();
@@ -74,10 +76,15 @@ void MainWindow::createActions()
     deleteAction->setStatusTip(tr("Delete cells"));
     connect(deleteAction,SIGNAL(triggered(bool)),spreadsheet,SLOT(del()));
 
+    closeAction = new QAction(tr("&Close"),this);
+    closeAction->setShortcut(QKeySequence::Close);
+    closeAction->setStatusTip(tr("Close this application"));
+    connect(closeAction,SIGNAL(triggered(bool)),this,SLOT(close()));
+
     exitAction = new QAction(tr("E&xit"),this);
     exitAction->setShortcut(tr("Ctrl+Q"));
     exitAction->setStatusTip(tr("Exit the application"));
-    connect(exitAction,SIGNAL(triggered(bool)),this,SLOT(close()));
+    connect(exitAction,SIGNAL(triggered(bool)),qApp,SLOT(closeAllWindows()));
 
     selectRowAction = new QAction(tr("&Row"),this);
     selectRowAction->setStatusTip(tr("Select row the cells in the spreadsheet"));
@@ -144,6 +151,7 @@ void MainWindow::createMenus()
     for(int i = 0; i < MaxRecentFiles; i++)
         fileMenu->addAction(recentFileActions[i]);
     fileMenu->addSeparator();
+    fileMenu->addAction(closeAction);
     fileMenu->addAction(exitAction);
 
     editMenu = menuBar()->addMenu(tr("&Edit"));
@@ -231,10 +239,8 @@ void MainWindow::spreadsheetModified()
 
 void MainWindow::newFile()
 {
-    if(okToContinue()){
-        spreadsheet->clear();
-        setCurrentFile("");
-    }
+    MainWindow *mainWin = new MainWindow;
+    mainWin->show();
 }
 
 bool MainWindow::okToContinue()
@@ -323,7 +329,9 @@ void MainWindow::setCurrentFile(const QString &fileName)
         showName = strippedName(curFile);
         recentFiles.removeAll(curFile);
         recentFiles.prepend(curFile);
-        updateRecentFileActions();
+        for (QWidget *widget : QApplication::topLevelWidgets())
+            if(MainWindow *mainWin = qobject_cast<MainWindow *>(widget))
+                mainWin->updateRecentFileActions();
     }
     setWindowTitle(tr("%1[*] - %2").arg(showName).arg(tr("Spreadsheet")));
 }
@@ -418,9 +426,9 @@ void MainWindow::sort()
      QMessageBox::about(this,tr("About Spreadsheet"),
                         tr("<h2>Spreadsheet 1.1</h2>"
                            "<p>Copyright &copy; 2008 Software Inc."
-                           "<p>Spreadsheet is a small application that"
-                           "demonstrates QAction, QMainWinodw, QmenuBar,"
-                           "QStatusBar, QTableWidget, QToolBar, and many other"
+                           "<p>Spreadsheet is a small application that "
+                           "demonstrates QAction, QMainWinodw, QmenuBar ,"
+                           "QStatusBar, QTableWidget, QToolBar, and many other "
                            "Qt classes."));
  }
 
@@ -440,11 +448,18 @@ void MainWindow::sort()
      restoreGeometry(settings.value("geometry").toByteArray());
 
      recentFiles = settings.value("recentFiles").toStringList();
-     updateRecentFileActions();
+     for (QWidget *widget : QApplication::topLevelWidgets())
+         if(MainWindow *mainWin = qobject_cast<MainWindow *>(widget))
+             mainWin->updateRecentFileActions();
 
      bool showGrid = settings.value("showGrid",true).toBool();
-     showGridAction->setChecked(showGrid);
+     for (QWidget *widget : QApplication::topLevelWidgets())
+         if(MainWindow *mainWin = qobject_cast<MainWindow *>(widget))
+             mainWin->showGridAction->setChecked(showGrid);
+
 
      bool autoRecalc = settings.value("autoRecalc",true).toBool();
-     autoRecalcAction->setChecked(autoRecalc);
+     for (QWidget *widget : QApplication::topLevelWidgets())
+         if(MainWindow *mainWin = qobject_cast<MainWindow *>(widget))
+             mainWin->autoRecalcAction->setChecked(autoRecalc);
  }

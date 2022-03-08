@@ -77,6 +77,7 @@ private:
     QAction *copyAction;
     QAction *pasteAction;
     QAction *deleteAction;
+    QAction *closeAction;
     QAction *exitAction;
     QAction *selectAllAction;
     QAction *selectRowAction;
