@@ -68,6 +68,7 @@ private:
 
     QToolBar *fileToolBar;
     QToolBar *editToolBar;
+
     QAction *newAction;
     QAction *openAction;
     QAction *saveAction;

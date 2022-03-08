@@ -12,7 +12,7 @@ class Spreadsheet : public QTableWidget
 public:
     Spreadsheet(QWidget *parent = 0);
 
-    bool autoRecalculate() const {return autoRecalc;}
+    bool autoRecalculate() const { return autoRecalc; }
     QString currentLocation() const;
     QString currentFormula() const;
     QTableWidgetSelectionRange selectedRange() const;
