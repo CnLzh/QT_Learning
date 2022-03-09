@@ -463,3 +463,5 @@ void MainWindow::sort()
          if(MainWindow *mainWin = qobject_cast<MainWindow *>(widget))
              mainWin->autoRecalcAction->setChecked(autoRecalc);
  }
+
+ QStringList MainWindow::recentFiles;

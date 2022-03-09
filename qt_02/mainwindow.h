@@ -50,7 +50,7 @@ private:
     FindDialog *findDialog;
     QLabel *locationLabel;
     QLabel *formulaLabel;
-    QStringList recentFiles;
+    static QStringList recentFiles;
     QString curFile;
 
     enum{MaxRecentFiles = 5};
@@ -92,5 +92,7 @@ private:
     QAction *aboutQtAction;
 
 };
+
+
 
 #endif // MAINWINDOW_H

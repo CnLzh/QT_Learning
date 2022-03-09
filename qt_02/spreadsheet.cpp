@@ -294,10 +294,17 @@ void Spreadsheet::sort(const SpreadsheetCompare &compare)
     QList<QStringList> rows;
     QTableWidgetSelectionRange range = selectedRange();
 
+
     for(int i = 0; i < range.rowCount(); i++){
         QStringList row;
-        for(int j = 0; j < range.columnCount(); j++)
-            row.append(formula(range.topRow() + i, range.leftColumn() + j));
+        for(int j = 0; j < range.columnCount(); j++){
+            QString selectedString = formula(range.topRow() + i, range.leftColumn() + j);
+            if(selectedString == ""){
+                QMessageBox::warning(this,tr("Spreadsheet"),tr("Cannot select empty cells."));
+                return;
+            }
+            row.append(selectedString);
+        }
         rows.append(row);
     }
 
