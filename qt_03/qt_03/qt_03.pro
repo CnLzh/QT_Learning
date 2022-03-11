@@ -15,6 +15,7 @@ SOURCES += \
 
 HEADERS += \
     hexspinbox.h \
+    iconeditor.h \
     mainwindow.h
 
 FORMS += \
