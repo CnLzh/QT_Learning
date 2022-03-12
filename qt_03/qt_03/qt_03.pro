@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     hexspinbox.cpp \
+    iconeditor.cpp \
     main.cpp \
     mainwindow.cpp
 

@@ -16,7 +16,8 @@ public:
     QColor penColor() const { return curColor; };
     void setZoomFactor(int newZoom);
     int zoomFactor() const { return zoom; };
-    void setIconImage()  const { return iamge; };
+    void setIconImage(const QImage &newImage);
+    QImage iconImage()  const { return iamge; };
     QSize sizeHint() const;
 
 protected:
